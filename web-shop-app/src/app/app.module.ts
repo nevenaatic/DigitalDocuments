@@ -4,8 +4,9 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomepageComponent } from './home-page/homepage/homepage.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
+import { MatCardModule } from '@angular/material/card'
 
 @NgModule({
   declarations: [
@@ -15,11 +16,14 @@ import { MatInputModule } from '@angular/material/input';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule, 
-    MatInputModule,
-    MatButtonModule
+    HttpClientModule,
+    MatFormFieldModule, 
+    MatButtonModule,
+    MatCardModule
+
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }
