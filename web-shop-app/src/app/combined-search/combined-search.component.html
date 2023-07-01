@@ -13,13 +13,13 @@
                         <div class="row">
                             <div class="col-6">
                                 <input type="text" id="form3Example4cdU" placeholder="Enter name " class="form-control"
-                                    [(ngModel)]="this.content" />
+                                    [(ngModel)]="this.nameContent" />
 
                             </div>
                             <div class="col-2">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" [(ngModel)]="namePS" id="myCheckbox"
-                                        (change)="selectPhrase()">
+                                        (change)="selectPhraseName()">
                                     <label class="form-check-label label-style" for="myCheckbox">
                                         Phrase
                                     </label>
@@ -27,32 +27,28 @@
                             </div>
                             <div class="col">
                                 <div class="form-group col-md-5">
-                                    <input [(ngModel)]="nameSelect" checked type="radio" id="sadrzajPPOznacenAND"
-                                        name="sadrzajPPOznacen" value=true>
-                                    <label for="sadrzajPPOznacenAND" class="label">AND</label>
-                                    <input [(ngModel)]="nameSelect" type="radio" id="sadrzajPPOznacenOR"
-                                        name="sadrzajPPOznacen" value=false style="margin-left: 10px;">
-                                    <label for="sadrzajPPOznacenOR" class="label">OR</label><br>
+                                    <select  class="custom-select" style="width: 58px;" id="inputGroupSelect01" (change)="nameOperator($event)">
+                                        <option selected>Operator </option>
+                                        <option value="AND">I</option>
+                                        <option value="OR">ILI</option>
+                                      </select>
                                 </div>
                             </div>
-
                         </div>
-
                     </div>
-
                 </div>
                 <div class="d-flex flex-row align-items-center mb-4">
                     <div class="form-outline flex-fill ">
                         <div class="row">
                             <div class="col-6">
                                 <input type="text" id="form3Example4cdU" placeholder="Enter Cv content "
-                                    class="form-control" [(ngModel)]="this.content" />
+                                    class="form-control" [(ngModel)]="this.cvContent" />
 
                             </div>
                             <div class="col-2">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" [(ngModel)]="cvPS" id="myCheckbox"
-                                        (change)="selectPhrase()">
+                                        (change)="selectPhraseName()">
                                     <label class="form-check-label label-style" for="myCheckbox">
                                         Phrase
                                     </label>
@@ -60,11 +56,11 @@
                             </div>
                             <div class="col">
                                 <div class="form-group col-md-5">
-                                    <input [(ngModel)]="cvSelect" checked type="radio" id="cv" name="cv" value=true>
-                                    <label for="cv" class="label">AND</label>
-                                    <input [(ngModel)]="cvSelect" type="radio" id="cv" name="cv" value=false
-                                        style="margin-left: 10px;">
-                                    <label for="cv" class="label">OR</label><br>
+                                    <select  class="custom-select" style="width: 58px;" id="inputGroupSelect01" (change)="cvOperator($event)">
+                                        <option selected>Operator </option>
+                                        <option value="AND">I</option>
+                                        <option value="OR">ILI</option>
+                                      </select><br>
                                 </div>
                             </div>
                         </div>
@@ -75,13 +71,13 @@
                         <div class="row">
                             <div class="col-6">
                                 <input type="text" id="form3Example4cdU" placeholder="Enter CL content "
-                                    class="form-control" [(ngModel)]="this.content" />
+                                    class="form-control" [(ngModel)]="this.clContent" (change)="selectPhraseCv()"/>
 
                             </div>
                             <div class="col-2">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" [(ngModel)]="clPS" id="myCheckbox"
-                                        (change)="selectPhrase()">
+                                        (change)="selectPhraseCL()">
                                     <label class="form-check-label label-style" for="myCheckbox">
                                         Phrase
                                     </label>
@@ -89,11 +85,11 @@
                             </div>
                             <div class="col">
                                 <div class="form-group col-md-5">
-                                    <input [(ngModel)]="clSelect" checked type="radio" id="cl" name="cl" value=true>
-                                    <label for="cl" class="label">AND</label>
-                                    <input [(ngModel)]="cvSelect" type="radio" id="cl" name="cl" value=false
-                                        style="margin-left: 10px;">
-                                    <label for="cl" class="label">OR</label><br>
+                                    <select  class="custom-select" style="width: 58px;" id="inputGroupSelect01" (change)="clOperator($event)">
+                                        <option selected>Operator </option>
+                                        <option  value="AND">I</option>
+                                        <option value="OR">ILI</option>
+                                      </select><br>
                                 </div>
                             </div>
                         </div>
@@ -119,7 +115,7 @@
                 <div class="col-2">
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" [(ngModel)]="educationPS" id="myCheckbox"
-                            (change)="selectPhrase()">
+                            (change)="selectPhraseEducation()">
                         <label class="form-check-label label-style" for="myCheckbox">
                             Phrase
                         </label>
@@ -127,11 +123,11 @@
                 </div>
                 <div class="col">
                     <div class="form-group col-md-5">
-                        <input [(ngModel)]="educationSelect" checked type="radio" id="educ" name="educ" value=true>
-                        <label for="educ" class="label">AND</label>
-                        <input [(ngModel)]="educationSelect" type="radio" id="educ" name="educ" value=false
-                            style="margin-left: 10px;">
-                        <label for="educ" class="label">OR</label><br>
+                        <select  class="custom-select" style="width: 58px;" id="inputGroupSelect01" (change)="educationOperator($event)">
+                            <option selected>Operator </option>
+                            <option value="AND">I</option>
+                            <option value="OR">ILI</option>
+                          </select><br>
                     </div>
                 </div>
             </div>
@@ -140,7 +136,19 @@
             </mat-card-content>
         </mat-card>
         <button mat-button color="primary" class="button-cancel" (click)="cancel()"> Cancel</button>
-        <button mat-button color="primary" class="button-confirm"> Confirm</button>
+        <button mat-button color="primary" class="button-confirm" (click)="submit()"> Confirm</button>
+        
+        <div *ngFor="let r of result " class="result-div">
+            <div class="card" *ngIf="result[0].firstName!= ''">
+                  <h5 class="card-title" style="color: black;"> Name and surname: {{r.firstName}} {{r.lastName}}</h5> 
+                  <h6 class="card-subtitle mb-2 text-muted" style="margin-left: 40%;"> Education: {{r.education}}</h6>
+                <div class="card-body">
+                
+                 
+                  <p class="card-text">Highlight: {{r.highlight}}</p>
+                </div>
+              </div>
+        </div>
     </div>
 
 

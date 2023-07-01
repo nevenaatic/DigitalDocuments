@@ -56,10 +56,8 @@ public class SearchService {
 
                 }
             }
-
             searchResponses.add(searchResponse);
         }
-
         return searchResponses;
     }
 }

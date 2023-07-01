@@ -1,17 +1,18 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.AdvancedSearchRequestsDto;
 import com.example.demo.dto.GeoLocationDto;
 import com.example.demo.dto.SimpleSearchDto;
 import com.example.demo.model.CandidateLocation;
 import lombok.AllArgsConstructor;
+import org.elasticsearch.index.query.*;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.elasticsearch.common.unit.DistanceUnit;
-import org.elasticsearch.index.query.GeoDistanceQueryBuilder;
-import org.elasticsearch.index.query.MultiMatchQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
+
+import java.util.List;
 
 import static org.elasticsearch.index.query.QueryBuilders.matchPhraseQuery;
 import static org.elasticsearch.index.query.QueryBuilders.multiMatchQuery;
@@ -180,10 +181,60 @@ public class QueryBuilderService {
 
         System.out.print(geoDistanceBuilder.toString());
 
-        return new NativeSearchQueryBuilder()
-                .withFilter(geoDistanceBuilder)
-                .withHighlightFields(new HighlightBuilder.Field("cvContent").fragmentSize(250).preTags("<b>").postTags("</b>"))
+//        NativeSearchQuery searchQuery = new NativeSearchQueryBuilder()
+//                .withFilter(geoDistanceBuilder)
+//                // Dodajte ostale delove upita prema vašim potrebama
+//                .build();
+//        System.out.print(searchQuery.toString());
+//        return searchQuery;
+
+        BoolQueryBuilder boolQuery = QueryBuilders.boolQuery()
+
+                .filter(geoDistanceBuilder);
+        System.out.print(boolQuery);
+
+        NativeSearchQuery searchQuery = new NativeSearchQueryBuilder()
+                .withQuery(boolQuery)
+                // Dodajte ostale delove upita prema potrebama
                 .build();
+
+        System.out.print(searchQuery);
+        return  searchQuery;
+    }
+
+    public static NativeSearchQuery buildQuerysearchAdvanced(List<AdvancedSearchRequestsDto> dto) {
+        BoolQueryBuilder boolQuery = QueryBuilders.boolQuery();
+
+        for(AdvancedSearchRequestsDto req: dto){
+
+            if(req.getOp().equals(Operator.AND.toString())) {
+                if(!req.getPhrase()){
+                    boolQuery.must(QueryBuilders.matchQuery(req.getCriteria(), req.getContent()));
+                } else {
+                    boolQuery.must(QueryBuilders.matchPhraseQuery(req.getCriteria(), req.getContent()));
+                }
+            } else {
+                if(!req.getPhrase()) {
+                    boolQuery.should(QueryBuilders.matchQuery(req.getCriteria(), req.getContent()));
+                } else {
+                    boolQuery.should(QueryBuilders.matchPhraseQuery(req.getCriteria(), req.getContent()));
+                }
+            }
+        }
+
+        HighlightBuilder highlightBuilder = new HighlightBuilder()
+                .highlighterType("plain")
+                .field("cvContent")
+                .preTags("<b>")
+                .postTags("</b>");
+
+        NativeSearchQuery searchQuery = new NativeSearchQueryBuilder()
+                .withQuery(boolQuery)
+                .withHighlightBuilder(highlightBuilder)
+                .build();
+        System.out.println(searchQuery);
+
+        return searchQuery;
     }
 
 

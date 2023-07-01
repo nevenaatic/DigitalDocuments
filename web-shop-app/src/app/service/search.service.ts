@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -31,6 +31,16 @@ export class SearchService {
 
   CLSearch(content:any){
     return this.http.post(`${this.search_url}/cl`, content);
+
+  }
+  advancedSearch(content:any){
+    console.log(content)
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json'
+      })
+    };
+    return this.http.post(`${this.search_url}/advanced`, content, httpOptions);
 
   }
 }
