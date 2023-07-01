@@ -1,9 +1,9 @@
 package com.example.demo.repository;
 
 import com.example.demo.model.Applicant;
-import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ApplicantRepository extends ElasticsearchRepository<Applicant, Integer> {
+public interface ApplicantRepository extends JpaRepository<Applicant, Integer> {
 }

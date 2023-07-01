@@ -1,0 +1,73 @@
+<body>
+
+    <div class="container">
+        <mat-card class="card">
+            <mat-card-header class="card-title">
+                <mat-card-title class="card-title">
+                    Application
+                </mat-card-title>
+                <hr />
+            </mat-card-header>
+            <mat-card-content class="content-card">
+
+                <div class="form-outline flex-fill mb-0">
+                    <input type="text" id="form3Example1c" class="form-control" [(ngModel)]="user.name"
+                        placeholder="Name" name="name">
+                </div>
+                <br />
+                <div class="form-outline flex-fill mb-0">
+                    <input type="text" id="form3Example1c" class="form-control" [(ngModel)]="user.surname" name="name"
+                        placeholder="Surname">
+                </div> <br />
+                <div class="form-outline flex-fill mb-0">
+                    <input type="text" id="form3Example4cdU" class="form-control" [(ngModel)]="user.street"
+                        placeholder="Street" />
+                </div> <br />
+                <div class="form-outline flex-fill mb-0">
+                    <input type="text" id="form3Example4cdG" class="form-control" [(ngModel)]="user.city"
+                        placeholder="City" />
+
+                </div>
+                <br />
+                <div class="d-flex flex-row align-items-center mb-4">
+                    <select class="custom-select" id="inputGroupSelect01" (change)="educationLevel($event)">
+                        <option selected>Select education level </option>
+                        <option value="1">I - four grades</option>
+                        <option value="2">II - primary school</option>
+                        <option value="3">III - Three-year professional school </option>
+                        <option value="4">IV -Four-year professional school</option>
+                        <option value="5">V - College or Higher School</option>
+                        <option value="6">VI - University</option>
+                        <option value="7">VII - Magistracy</option>
+                        <option value="8">VIII - Doctorate/PhD</option>
+
+                    </select>
+                </div>
+                <div class="d-flex flex-row align-items-center mb-4">
+                    <i class="fas fa-key fa-lg me-3 fa-fw"></i>
+                    <div class="form-outline flex-fill mb-0">
+                        <label class="form-label label" for="formFileLgCV">Add CV</label>
+                        <input class="form-control form-control-lg" id="formFileLgCV" type="file"
+                            (change)="addCV($event)" />
+                    </div>
+                </div>
+                <div class="d-flex flex-row align-items-center mb-4">
+                    <i class="fas fa-key fa-lg me-3 fa-fw"></i>
+                    <div class="form-outline flex-fill mb-0">
+                        <label class="form-label label" for="formFileLgCL">Add CL</label>
+                        <input class="form-control form-control-lg" id="formFileLgCL" type="file"
+                            (change)="addCL($event)" />
+
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                    <button mat-button color="primary" class="button-cancel" (click)="cancel()"> Cancel</button>
+
+                    <button type="button" class="btn btn-primary btn-lg" (click)="submit()"
+                      >Potvrdi</button>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+
+</body>

@@ -1,0 +1,78 @@
+<body>
+   
+            <div class="container">
+        <mat-card class="card" >
+            <mat-card-header class="card-title">
+                <mat-card-title class="card-title" >
+                   Classic search
+                </mat-card-title>
+                <hr/>
+            </mat-card-header>
+            <mat-card-content class="content-card">
+                <div class="d-flex flex-row align-items-center mb-4">
+                    <select class="custom-select" id="inputGroupSelect01" (change)="selectField($event)">
+                        <option selected value="0">Select criteria</option>
+                        <option value="1">Name & surname</option>
+                        <option value="2">CV content</option>
+                        <option value="3">Cover letter content</option>
+                        <option value="4">Education level</option>
+                    </select>
+                </div>
+    
+                <div *ngIf="!this.showLevel" class="d-flex flex-row align-items-center mb-4">
+                    <div class="form-outline flex-fill ">
+                        <div class="row">
+                            <div class="col-10">
+                                <input type="text" id="form3Example4cdU" placeholder="Enter text" class="form-control" [(ngModel)]="this.content"/>
+
+                            </div>
+                            <div class="col-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" [(ngModel)]="phrase" id="myCheckbox" (change)="selectPhrase()">
+                                    <label class="form-check-label label-style" for="myCheckbox">
+                                      Phrase
+                                    </label>
+                                  </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div *ngIf="this.showLevel" class="d-flex flex-row align-items-center mb-4">
+                    <select class="custom-select" id="inputGroupSelect01" (change)="educationLevel($event)">
+                        <option selected>Select education level </option>
+                        <option value="I">I - four grades</option>
+                        <option value="II">II - primary school</option>
+                        <option value="III">III - Three-year professional school  </option>
+                        <option value="IV">IV -Four-year professional school</option>
+                        <option value="V">V  - College or Higher School</option>
+                        <option value="VI">VI - University</option>
+                        <option value="VII">VII - Magistracy</option>
+                        <option value="VIII">VIII - Doctorate/PhD</option>
+                    </select>
+                </div>
+            </mat-card-content>
+        </mat-card>
+        <button mat-button color="primary" class="button-cancel" (click)="cancel()"> Cancel</button>
+         <button mat-button color="primary" class="button-confirm" (click)="submit()"> Confirm</button>
+    <div *ngFor="let r of result" class="result-div">
+            <div class="card" *ngIf="result[0].firstName != ''">
+                  <h5 class="card-title" style="color: black;"> Name and surname: {{r.firstName}} {{r.lastName}}</h5> 
+                  <h6 class="card-subtitle mb-2 text-muted" style="margin-left: 40%;"> Education: {{r.education}}</h6>
+                <div class="card-body">
+                
+                 
+                  <p class="card-text">Highlight: {{r.highlight}}</p>
+                  <button class="btn btn-primary" (click)="downloadCV(r.id)" >Download CV</button>
+                  <button class="btn btn-primary" style="margin-left: 100px;" (click)="downloadCL(r.id)">Download cover letter</button>
+                </div>
+              </div>
+        </div>
+   
+        </div>
+   
+
+    
+
+</body>
+

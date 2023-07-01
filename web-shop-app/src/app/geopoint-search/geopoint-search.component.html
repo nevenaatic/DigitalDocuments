@@ -1,0 +1,47 @@
+<body>
+    <div class="container">
+        <mat-card class="card" >
+            <mat-card-header class="card-title">
+                <mat-card-title class="card-title" >
+                   Geopoint search
+                </mat-card-title>
+                <hr/>
+            </mat-card-header>
+            <mat-card-content class="content-card">
+             
+                <div class="form-outline flex-fill ">
+                    <div class="row">
+                        <div class="col-6">
+                            <input type="text" id="form3Example4cdU" placeholder="Enter city " class="form-control" [(ngModel)]="this.content.city"/>
+
+                        </div>
+                        <div class="col-6">
+                            <input type="text" id="form3Example4cdU" placeholder="Enter radius" class="form-control" [(ngModel)]="this.content.radius"/>
+                        </div>
+                    </div>
+
+                </div>
+              
+            </mat-card-content>
+        </mat-card>
+        <button mat-button color="primary" class="button-cancel" (click)="cancel()"> Cancel</button>
+         <button mat-button color="primary" class="button-confirm" (click)="submit()"> Confirm</button>
+         <div *ngFor="let r of result">
+            <div class="card"  *ngIf="result[0].firstName != ''">
+                <div class="card" *ngIf="result[0].firstName != ''">
+                    <h5 class="card-title" style="color: black;"> Name and surname: {{r.firstName}} {{r.lastName}}</h5> 
+                    <h6 class="card-subtitle mb-2 text-muted" style="margin-left: 40%;"> Education: {{r.education}}</h6>
+                  <div class="card-body">
+                  
+                   
+                    <p class="card-text">Highlight: {{r.highlight}}</p>
+                  </div>
+                </div>
+              </div>
+        </div>
+        </div>
+
+
+</body>
+
+

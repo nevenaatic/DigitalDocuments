@@ -1,0 +1,65 @@
+body {
+    background-image: url('../../assets/image.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    height: 800px;
+    overflow: hidden;
+    opacity: 0.9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    background-color: black;
+    opacity: 0.9;
+    color: white;
+    margin-top: -20%;
+    align-items: center;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.card {
+    background-color: transparent;
+
+}
+
+.content-card {
+    background-color: transparent;
+    align-items: center;
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+.card-title {
+    color: white;
+    font-weight: bold;
+    font-size: larger;
+    margin-left: 30%;
+    width: 100%;
+}
+
+.custom-select{
+    width: 100%;
+    height: 40px;
+    border-radius: 1px;
+}
+
+.label-style{
+    color: white;
+}
+
+.button-cancel{
+    margin-left: 40%;
+    margin-bottom: 1%;
+} 
+.button-confirm{
+    margin-left: 5%;
+    margin-right: 10%;
+    margin-bottom: 1%;
+    background-color: rgb(7, 87, 215);
+    color: white;
+    
+} 

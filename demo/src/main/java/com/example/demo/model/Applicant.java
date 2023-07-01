@@ -2,39 +2,44 @@ package com.example.demo.model;
 
 import lombok.*;
 
-import org.springframework.data.elasticsearch.annotations.Document;
-import org.springframework.data.elasticsearch.annotations.Setting;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.elasticsearch.annotations.*;
-import org.springframework.data.elasticsearch.core.geo.GeoPoint;
+
+import javax.persistence.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
-@Document(indexName = "applicant")
-@Setting(settingPath = "static/es-settings.json")
+@Entity
+@Table(name = "applicant")
 public class Applicant {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     //@Field(type = FieldType.Keyword, index = false, store = true)
     private Integer id;
 
-    @Field(type = FieldType.Text, analyzer = "serbian", store = true)
+    @Column(nullable = false)
     private String name;
 
-    @Field(type = FieldType.Text, analyzer = "serbian", store = true)
+    @Column(nullable = false)
     private String surname;
 
-    @Field(type = FieldType.Text, store = true)
-    private Integer education;
+    @Column(nullable = false)
+    private String education;
 
-    @Field(type = FieldType.Text, searchAnalyzer = "serbian",analyzer = "serbian")
-    private String sadrzajCV;
+    @Column(nullable = false)
+    private String street;
 
-    @Field(type = FieldType.Text, searchAnalyzer = "serbian",analyzer = "serbian")
-    private String sadrzajPP;
+    @Column(nullable = false)
+    private String city;
 
-    @GeoPointField
-    private GeoPoint location;
+    @Column(nullable = false)
+    private String cvName;
+
+    @Column(nullable = false)
+    private String clName;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "company_id", nullable = true)
+    private Company company;
 }

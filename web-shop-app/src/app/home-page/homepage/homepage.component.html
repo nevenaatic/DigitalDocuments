@@ -1,20 +1,27 @@
-<link rel="stylesheet" href="homepage.component.css">
-
+<!-- <link rel="stylesheet" href="homepage.component.css"> -->
 <body>
- <div class="container"> 
-    <div class="card-wrapper">
+ <div class="container" style="background-color: transparent;"> 
+  
         <mat-card class="card" >
             <mat-card-header class="card-title">
                 <mat-card-title class="card-title" >
-                   SEARCH CANDIDATES
+                   ELK STACK APPLICATION
                 </mat-card-title>
                 <hr/>
             </mat-card-header>
             <mat-card-content class="content-card">
-               Hello from Homepage
+                <div class="row">
+                    <div class="col"><button mat-button color="primary" class="button-search" (click)="classicSearch()">Classic search</button></div>
+                    <div class="col"><button mat-button color="primary"  class="button-search" (click)="combinedSearch()">Combined search</button></div>
+                    <div class="col"><button mat-button color="primary" class="button-search" (click)="geopointSearch()">GeoPoint search</button></div>
+                    <div class="col"><button mat-button color="primary" class="button-search">Statistic</button></div>
+                </div>
+                <div class="row">
+                    <div class="col"><button mat-button color="primary" class="button-add" (click)="addApplicant()">Add candidate</button></div>
+                </div>
             </mat-card-content>
         </mat-card>
-    </div>
+  
  </div> 
 </body>
 

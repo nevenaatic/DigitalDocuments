@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-homepage',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomepageComponent implements OnInit {
 
-  constructor() { }
+  constructor( private router: Router) { }
 
   ngOnInit(): void {
   }
 
+  public classicSearch = () => this.router.navigate(['/classic-search'])
+
+  public combinedSearch = () => this.router.navigate(['/combined-search'])
+
+  public geopointSearch = () => this.router.navigate(['/geopoint-search'])
+  public addApplicant = () => this.router.navigate(['/applicant'])
 }
