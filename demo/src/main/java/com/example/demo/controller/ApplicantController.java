@@ -1,18 +1,25 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.ApplicantDto;
+import com.example.demo.dto.DownloadFileDto;
 import com.example.demo.dto.RegisterDto;
 import com.example.demo.model.Applicant;
 import com.example.demo.model.IndexUnit;
 import com.example.demo.service.ApplicantService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.List;
 
 
@@ -61,4 +68,39 @@ public class ApplicantController {
         }
         return new ResponseEntity<>("Success registration", HttpStatus.OK);
     }
+
+    @PostMapping("/downloadFile")
+    @ResponseBody public ResponseEntity<Resource> downloadFile(@RequestBody DownloadFileDto dto, HttpServletResponse response) {
+        Applicant a = applicantService.findByIdInt(Integer.parseInt(dto.getId()));
+        try {
+            String filename;
+
+            if (dto.getIsCV()) {
+                filename = a.getCvName();
+            } else {
+                filename = a.getClName();
+            }
+
+            File file = new File("src/main/resources/" + filename);
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+            headers.add("Pragma", "no-cache");
+            headers.add("Expires", "0");
+            InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+            System.out.println("The length of the file is : " + file.length());
+            response.setContentType(MediaType.APPLICATION_PDF_VALUE);
+            response.setHeader("Content-disposition", "attachment; filename=" + file);
+            response.setContentLength((int) file.length());
+
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .contentLength(file.length())
+                    .contentType(MediaType.APPLICATION_PDF)
+                    .body(resource);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

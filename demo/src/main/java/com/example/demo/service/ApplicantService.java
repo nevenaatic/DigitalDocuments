@@ -38,6 +38,9 @@ public class ApplicantService {
 
    public  void save(IndexUnit applicant){ indexUnitRepository.save(applicant);}
 
+    public Applicant findByIdInt(int id) {
+        return (Applicant) applicationRepository.findById(id).orElse(null);
+    }
     public IndexUnit findById(String id){
         return indexUnitRepository.findById(id).orElse(null);
     }

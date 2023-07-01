@@ -179,27 +179,17 @@ public class QueryBuilderService {
                 .distance(dto.getRadius(),
                         DistanceUnit.parseUnit("km", DistanceUnit.KILOMETERS));
 
+
         System.out.print(geoDistanceBuilder.toString());
 
-//        NativeSearchQuery searchQuery = new NativeSearchQueryBuilder()
-//                .withFilter(geoDistanceBuilder)
-//                // Dodajte ostale delove upita prema vašim potrebama
-//                .build();
-//        System.out.print(searchQuery.toString());
-//        return searchQuery;
-
-        BoolQueryBuilder boolQuery = QueryBuilders.boolQuery()
-
-                .filter(geoDistanceBuilder);
-        System.out.print(boolQuery);
-
         NativeSearchQuery searchQuery = new NativeSearchQueryBuilder()
-                .withQuery(boolQuery)
-                // Dodajte ostale delove upita prema potrebama
+                .withFilter(geoDistanceBuilder)
+                // Dodajte ostale delove upita prema vašim potrebama
                 .build();
+        System.out.print(searchQuery.toString());
+        return searchQuery;
 
-        System.out.print(searchQuery);
-        return  searchQuery;
+
     }
 
     public static NativeSearchQuery buildQuerysearchAdvanced(List<AdvancedSearchRequestsDto> dto) {

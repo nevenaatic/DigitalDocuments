@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class RegisterService {
   private register_url = 'http://localhost:8082/applicant/register';
-  private download_url = 'http://localhost:8082/applicant/download';
+  private download_url = 'http://localhost:8082/applicant/downloadFile';
   private getAll_url = 'http://localhost:8082/applicant/getAll';
 
    constructor(private http: HttpClient) { }
@@ -25,7 +25,7 @@ export class RegisterService {
   download(dto:any){
     let json = JSON.stringify(dto)
     let headers = new HttpHeaders().set('Content-Type', 'application/json');
-    let options = { headers: headers, responseType: 'text' as 'json' };
+    let options = { headers: headers, responseType: 'blob' as 'json' };
     return this.http.post(this.download_url, json, options);
   }
 

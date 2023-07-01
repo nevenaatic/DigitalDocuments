@@ -95,6 +95,12 @@ export class ClassicSearchComponent implements OnInit {
     this.registerService.download(dto).subscribe(
       (data: any) => {
         console.log(this.result)
+        var file = new Blob([data], { type: 'application/pdf' })
+        var link = document.createElement('a');
+        link.href = window.URL.createObjectURL(file);
+        link.download = 'downloadedCV.pdf';
+        link.target = '_blank';
+        link.click();     
       }
     )
   }
@@ -108,7 +114,13 @@ export class ClassicSearchComponent implements OnInit {
     this.registerService.download(dto).subscribe(
       (data: any) => {
         console.log(this.result)
-        alert("Uspesno preuzet fajl!!")
+        console.log(this.result)
+        var file = new Blob([data], { type: 'application/pdf' })
+        var link = document.createElement('a');
+        link.href = window.URL.createObjectURL(file);
+        link.download = 'downloadedCL.pdf';
+        link.target = '_blank';
+        link.click();     
       }
     )
   }

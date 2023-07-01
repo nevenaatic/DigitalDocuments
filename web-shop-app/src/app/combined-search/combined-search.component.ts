@@ -2,6 +2,7 @@ import { trigger } from '@angular/animations';
 import { BootstrapOptions, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SearchService } from '../service/search.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-combined-search',
@@ -42,7 +43,7 @@ export class CombinedSearchComponent implements OnInit {
   clPS:boolean=false;
 
 
-  constructor( private router: Router, private searchService: SearchService) { }
+  constructor( private router: Router, private searchService: SearchService, private snack: MatSnackBar) { }
 
   ngOnInit(): void {
   }
@@ -80,7 +81,7 @@ export class CombinedSearchComponent implements OnInit {
    }
    cvOperator($event:any){
     this.cvOperatorSelected= $event.target.value
-    alert("CV OPERATOR"+this.cvOperatorSelected)
+   // alert("CV OPERATOR"+this.cvOperatorSelected)
    }
    clOperator($event:any) {
     this.clOperator = $event.target.value
@@ -123,6 +124,11 @@ this.fields.shift(); // uklanjam onaj prvi obj
       (data: any) => {
         this.result = data
         console.log(data)
+        if(this.result.length == 0) {
+          this.snack.open('Poruka koju želite prikazati', 'Zatvori', {
+            duration: 2000, 
+          });
+        }
         this.fields = [];
       }
     )
