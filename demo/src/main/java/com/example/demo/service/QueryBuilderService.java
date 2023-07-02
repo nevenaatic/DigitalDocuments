@@ -3,9 +3,9 @@ package com.example.demo.service;
 import com.example.demo.dto.AdvancedSearchRequestsDto;
 import com.example.demo.dto.GeoLocationDto;
 import com.example.demo.dto.SimpleSearchDto;
-import com.example.demo.model.CandidateLocation;
+import com.example.demo.model.Location;
+import com.example.demo.model.Operator;
 import lombok.AllArgsConstructor;
-import org.elasticsearch.index.query.*;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.elasticsearch.common.unit.DistanceUnit;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
@@ -16,6 +16,10 @@ import java.util.List;
 
 import static org.elasticsearch.index.query.QueryBuilders.matchPhraseQuery;
 import static org.elasticsearch.index.query.QueryBuilders.multiMatchQuery;
+import org.elasticsearch.index.query.GeoDistanceQueryBuilder;
+import org.elasticsearch.index.query.MultiMatchQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.index.query.BoolQueryBuilder;
 
 @AllArgsConstructor
 public class QueryBuilderService {
@@ -160,7 +164,7 @@ public class QueryBuilderService {
     }
 
 
-    public static NativeSearchQuery buildQuerysearchByGeoLocation(GeoLocationDto dto, CandidateLocation location) throws Exception {
+    public static NativeSearchQuery buildQuerysearchByGeoLocation(GeoLocationDto dto, Location location) throws Exception {
         String errorMessage = "";
         if (dto.getCity() == null || dto.getCity().equals("")) {
             errorMessage += "Field is empty";
@@ -180,17 +184,13 @@ public class QueryBuilderService {
                         DistanceUnit.parseUnit("km", DistanceUnit.KILOMETERS));
 
 
-        System.out.print(geoDistanceBuilder.toString());
-
-        NativeSearchQuery searchQuery = new NativeSearchQueryBuilder()
+        return new NativeSearchQueryBuilder()
                 .withFilter(geoDistanceBuilder)
-                // Dodajte ostale delove upita prema vašim potrebama
+                .withHighlightFields(new HighlightBuilder.Field("cvContent").fragmentSize(250).preTags("<b>").postTags("</b>"))
                 .build();
-        System.out.print(searchQuery.toString());
-        return searchQuery;
-
-
     }
+
+
 
     public static NativeSearchQuery buildQuerysearchAdvanced(List<AdvancedSearchRequestsDto> dto) {
         BoolQueryBuilder boolQuery = QueryBuilders.boolQuery();

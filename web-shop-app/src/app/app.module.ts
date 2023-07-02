@@ -13,6 +13,7 @@ import { GeopointSearchComponent } from './geopoint-search/geopoint-search.compo
 import { FormsModule } from '@angular/forms';
 import { AddApplicantComponent } from './add-applicant/add-applicant.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { WorkersComponent } from './workers/workers.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     ClassicSearchComponent,
     CombinedSearchComponent,
     GeopointSearchComponent,
-    AddApplicantComponent
+    AddApplicantComponent,
+    WorkersComponent
   ],
   imports: [
     BrowserModule,

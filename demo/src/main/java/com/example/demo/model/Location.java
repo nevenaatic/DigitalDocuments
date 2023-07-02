@@ -6,7 +6,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CandidateLocation {
-    private Double lat;
-    private Double lon;
+public class Location {
+    private double lat;
+    private double lon;
 }

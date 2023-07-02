@@ -2,11 +2,14 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.ApplicantDto;
 import com.example.demo.dto.DownloadFileDto;
+import com.example.demo.dto.HireDto;
 import com.example.demo.dto.RegisterDto;
 import com.example.demo.model.Applicant;
 import com.example.demo.model.IndexUnit;
 import com.example.demo.service.ApplicantService;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
@@ -30,6 +33,7 @@ import java.util.List;
 public class ApplicantController {
 
     private final ApplicantService applicantService;
+    private static final Logger logger = LoggerFactory.getLogger(ApplicantController.class);
 
     @Autowired
     private HttpServletResponse response;
@@ -66,6 +70,7 @@ public class ApplicantController {
 
             return new ResponseEntity<>("Failed registration!!", HttpStatus.BAD_REQUEST);
         }
+        logger.info("Request for registration received from city: {}", dto.getCity());
         return new ResponseEntity<>("Success registration", HttpStatus.OK);
     }
 
@@ -83,14 +88,8 @@ public class ApplicantController {
 
             File file = new File("src/main/resources/" + filename);
             HttpHeaders headers = new HttpHeaders();
-            headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
-            headers.add("Pragma", "no-cache");
-            headers.add("Expires", "0");
             InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
-            System.out.println("The length of the file is : " + file.length());
             response.setContentType(MediaType.APPLICATION_PDF_VALUE);
-            response.setHeader("Content-disposition", "attachment; filename=" + file);
-            response.setContentLength((int) file.length());
 
             return ResponseEntity.ok()
                     .headers(headers)
@@ -103,4 +102,13 @@ public class ApplicantController {
         return null;
     }
 
+    @PostMapping("/hire")
+    @ResponseBody public ResponseEntity<?> hire(@RequestBody HireDto dto) {
+        Boolean hirerd = applicantService.hire(dto);
+        if(hirerd) {
+            return new ResponseEntity<>("Success hiring!", HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>("Failed hiring!!", HttpStatus.BAD_REQUEST);
+    }
 }

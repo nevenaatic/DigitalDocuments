@@ -1,8 +1,7 @@
 package com.example.demo.service;
 
-import com.example.demo.model.CandidateLocation;
+import com.example.demo.model.Location;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
@@ -19,11 +18,11 @@ public class CandidateLocationService {
     @Autowired
     private RestTemplate restTemplate;
 
-    public CandidateLocation getLocationFromAddress(String address) throws Exception {
+    public Location getLocationFromAddress(String address) throws Exception {
         String encodedAddress = URLEncoder.encode(address, StandardCharsets.UTF_8);
         try {
-            ResponseEntity<CandidateLocation[]> locationResponse = restTemplate.getForEntity(
-                    API_URL + "search" + "?key=" + "pk.e4873b756ede14daaf315f8669dbd43b" + "&q=" + encodedAddress + "&format=json", CandidateLocation[].class);
+            ResponseEntity<Location[]> locationResponse = restTemplate.getForEntity(
+                    API_URL + "search" + "?key=" + "pk.e4873b756ede14daaf315f8669dbd43b" + "&q=" + encodedAddress + "&format=json", Location[].class);
             return Objects.requireNonNull(locationResponse.getBody())[0];
         } catch (HttpClientErrorException e) {
             throw new Exception("Unable to find lgn and lat from city name");

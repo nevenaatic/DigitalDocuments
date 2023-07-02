@@ -146,9 +146,13 @@
                 
                  
                   <p class="card-text">Highlight: {{r.highlight}}</p>
-                </div>
-              </div>
-        </div>
+                <button class="btn btn-primary" (click)="downloadCV(r.id)" >Download CV</button>
+              <button class="btn btn-primary" style="margin-left: 100px;" (click)="downloadCL(r.id)">Download cover letter</button>
+             </div>
+              
+             
+       </div>
+     </div>
     </div>
 
 

@@ -1,17 +1,17 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.ApplicantDto;
+import com.example.demo.dto.HireDto;
 import com.example.demo.dto.RegisterDto;
-import com.example.demo.model.Applicant;
-import com.example.demo.model.CandidateLocation;
-import com.example.demo.model.IndexUnit;
-import com.example.demo.repository.ApplicantRepository;
-import com.example.demo.repository.IndexUnitRepository;
+import com.example.demo.model.*;
+import com.example.demo.repository.*;
 import org.apache.pdfbox.cos.COSDocument;
 import org.apache.pdfbox.io.RandomAccessFile;
 import org.apache.pdfbox.pdfparser.PDFParser;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.elasticsearch.core.geo.GeoPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,9 +31,20 @@ public class ApplicantService {
     IndexUnitRepository indexUnitRepository;
     @Autowired
     public ApplicantRepository applicationRepository;
+
+    @Autowired
+    public PodaciESRepository podaciESRepository;
+
     @Autowired
     CandidateLocationService locationService;
 
+    @Autowired
+    private EmployeeRepository employeeRepository;
+
+    @Autowired
+    private CompanyRepository companyRepository;
+
+    private static final Logger logger = LoggerFactory.getLogger(ApplicantService.class);
     private static int applicantNum = 1;
 
    public  void save(IndexUnit applicant){ indexUnitRepository.save(applicant);}
@@ -54,6 +65,11 @@ public class ApplicantService {
             dto.setEducation(a.getEducation());
             dto.setAddress(a.getStreet() + ", " + a.getCity());
             dto.setId(a.getId().toString());
+            if(a.getCompany()!= null) {
+                dto.setIsHired(true);
+            }else {
+                dto.setIsHired(false);
+            }
             ret.add(dto);
         }
         return ret;
@@ -84,14 +100,26 @@ public class ApplicantService {
         iu.setClContent(clContent);
         iu.setCvContent(cvContent);
 
-        CandidateLocation l = locationService.getLocationFromAddress(dto.getCity());
+        Location l = locationService.getLocationFromAddress(dto.getCity());
        GeoPoint g = new GeoPoint(l.getLat(),l.getLon());
         iu.setLocation(g);
+
 
         ++ApplicantService.applicantNum;
         save(iu);
 
-      //  System.out.println(l.getLat() + "-----" + l.getLon());
+        //ZA CUVANJE NOVOG INDEKSA
+   /*     PodaciES podaci = new PodaciES();
+        podaci.setId(a.getId());
+        podaci.setIme(dto.getName());
+        podaci.setObrazovanje(dto.getEducation());
+        podaci.setSadrzajCV(cvContent);
+        podaci.setSadrzajPP(clContent);
+        podaci.setLocation(new GeoPoint(l.getLat(), l.getLon()));
+        podaciESRepository.save(podaci); */
+
+
+        System.out.println(l.getLat() + "-----" + l.getLon());
         return iu;
     }
 
@@ -123,5 +151,33 @@ public class ApplicantService {
         cosDoc.close();
 
         return parsedText;
+    }
+
+    public Boolean hire(HireDto dto){
+        Applicant a = applicationRepository.findById(Integer.parseInt(dto.getApplicantId())).orElseGet(null);
+
+        if(a == null){
+            return false;
+        }
+
+        Company c = companyRepository.findById(Long.valueOf(dto.getCompanyId())).orElseGet(null);
+
+        if(c == null){
+            return false;
+        }
+
+        Employee e = employeeRepository.findById(Integer.parseInt(dto.getEmployeeId())).orElseGet(null);
+
+        if(e == null){
+            return false;
+        }
+
+        a.setCompany(c);
+        applicationRepository.save(a);
+
+        logger.info("New employment in the company: {}", c.getName());
+        logger.info("New successful employment by employee: {}", e.getName());
+
+        return true;
     }
 }

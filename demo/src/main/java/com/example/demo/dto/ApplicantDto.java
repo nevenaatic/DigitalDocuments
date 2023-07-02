@@ -12,4 +12,5 @@ public class ApplicantDto {
     private String address;
     private String education;
     private String id;
+    private Boolean isHired;
 }

@@ -1,27 +1,42 @@
 <!-- <link rel="stylesheet" href="homepage.component.css"> -->
+
 <body>
- <div class="container" style="background-color: transparent;"> 
-  
-        <mat-card class="card" >
+    <div class="container" style="background-color: transparent;">
+
+        <mat-card class="card">
             <mat-card-header class="card-title">
-                <mat-card-title class="card-title" >
-                   ELK STACK APPLICATION
+                <mat-card-title class="card-title">
+                    ELK STACK APPLICATION
                 </mat-card-title>
-                <hr/>
+                <hr />
             </mat-card-header>
             <mat-card-content class="content-card">
                 <div class="row">
-                    <div class="col"><button mat-button color="primary" class="button-search" (click)="classicSearch()">Classic search</button></div>
-                    <div class="col"><button mat-button color="primary"  class="button-search" (click)="combinedSearch()">Combined search</button></div>
-                    <div class="col"><button mat-button color="primary" class="button-search" (click)="geopointSearch()">GeoPoint search</button></div>
+                    <div class="col"><button mat-button color="primary" class="button-search"
+                            (click)="classicSearch()">Classic search</button></div>
+                    <div class="col"><button mat-button color="primary" class="button-search"
+                            (click)="combinedSearch()">Combined search</button></div>
+                    <div class="col"><button mat-button color="primary" class="button-search"
+                            (click)="geopointSearch()">GeoPoint search</button></div>
                     <div class="col"><button mat-button color="primary" class="button-search">Statistic</button></div>
                 </div>
+                <hr>
                 <div class="row">
-                    <div class="col"><button mat-button color="primary" class="button-add" (click)="addApplicant()">Add candidate</button></div>
+                    <mat-card-title class="card-title-employee">
+                        EMPLOYEE
+                    </mat-card-title>
+                    <mat-card-content>
+                        <div class="row">
+                            <div class="col"><button mat-button color="primary" class="button-add"
+                                    (click)="addApplicant()">Add candidate</button></div>
+                            <div class="col"><button mat-button color="primary" class="button-add"
+                                    (click)="workersShow()">Candidates</button></div>
+                        </div>
+                    </mat-card-content>
+
                 </div>
             </mat-card-content>
         </mat-card>
-  
- </div> 
-</body>
 
+    </div>
+</body>

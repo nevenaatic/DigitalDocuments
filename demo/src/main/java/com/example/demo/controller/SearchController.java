@@ -4,7 +4,7 @@ import com.example.demo.dto.AdvancedSearchRequestsDto;
 import com.example.demo.dto.GeoLocationDto;
 import com.example.demo.dto.SearchResponseDto;
 import com.example.demo.dto.SimpleSearchDto;
-import com.example.demo.model.CandidateLocation;
+import com.example.demo.model.Location;
 import com.example.demo.service.CandidateLocationService;
 import com.example.demo.service.QueryBuilderService;
 import com.example.demo.service.SearchService;
@@ -73,14 +73,6 @@ System.out.print(query);
         return new ResponseEntity<>(searchService.simpleSearch(query), HttpStatus.OK);
     }
 
-//    @PostMapping(value = "/location")
-//    public ResponseEntity<?> searchByGeoLocation(@RequestBody GeoLocationDto dto) throws Exception {
-//        CandidateLocation location = locationService.getLocationFromAddress(dto.getCity());
-//        NativeSearchQuery query = QueryBuilderService.buildQuerysearchByGeoLocation(dto, location);
-//
-//        return new ResponseEntity<>(searchService.simpleSearch(query), HttpStatus.OK);
-//    }
-
 
     @PostMapping(value = "/advanced")
     public ResponseEntity<?> advancedSearch(@RequestBody List<AdvancedSearchRequestsDto> dto) throws Exception {
@@ -89,42 +81,42 @@ System.out.print(query);
         return new ResponseEntity<>(searchService.simpleSearch(query), HttpStatus.OK);
     }
 
-//    @PostMapping(value = "/location")
-//    public ResponseEntity<?> searchByGeoLocation(@RequestBody GeoLocationDto dto) throws Exception {
-//        CandidateLocation location = locationService.getLocationFromAddress(dto.getCity());
-//
-//        BoolQueryBuilder qb = new BoolQueryBuilder();
-//        qb.must(QueryBuilders.matchAllQuery());
-//        qb.must(QueryBuilders.geoDistanceQuery("location").distance(dto.getRadius() + "km").point(location.getLon(),location.getLat()));
-//
-//        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
-//        sourceBuilder.query(qb);
-//        SearchRequest searchRequest = new SearchRequest();
-//        searchRequest.source(sourceBuilder);
-//    System.out.print(searchRequest);
-//
-//        SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
-//
-//        List<SearchResponseDto> searchResult = new ArrayList<>();
-//
-//        for(SearchHit hit: searchResponse.getHits()){
-//            Map<String, Object> sourceAsMap = hit.getSourceAsMap();
-//            SearchResponseDto searchResponseDto = new SearchResponseDto();
-//            searchResponseDto.setId(sourceAsMap.get("id").toString());
-//            searchResponseDto.setFirstName(sourceAsMap.get("name").toString());
-//        searchResponseDto.setLastName(sourceAsMap.get("surname").toString());
-//        searchResponseDto.setAddress(sourceAsMap.get("address").toString());
-//            searchResponseDto.setEducation(sourceAsMap.get("education").toString());
-//            searchResponseDto.setHighlight("");
-//            searchResult.add(searchResponseDto);
-//
-//        }System.out.println(searchResult);
-//        return new ResponseEntity<>(searchResult, HttpStatus.OK);
-//    }
+  /*  @PostMapping(value = "/location")
+    public ResponseEntity<?> searchByGeoLocation(@RequestBody GeoLocationDto dto) throws Exception {
+        Location location = locationService.getLocationFromAddress(dto.getCity());
+
+        BoolQueryBuilder qb = new BoolQueryBuilder();
+        qb.must(QueryBuilders.matchAllQuery());
+        qb.must(QueryBuilders.geoDistanceQuery("location").distance(dto.getRadius() + "km").point(location.getLon(),location.getLat()));
+
+        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
+        sourceBuilder.query(qb);
+        SearchRequest searchRequest = new SearchRequest("podaci");
+        searchRequest.source(sourceBuilder);
+    System.out.print(searchRequest);
+
+        SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
+
+        List<SearchResponseDto> searchResult = new ArrayList<>();
+
+        for(SearchHit hit: searchResponse.getHits()){
+            Map<String, Object> sourceAsMap = hit.getSourceAsMap();
+            SearchResponseDto searchResponseDto = new SearchResponseDto();
+            searchResponseDto.setId(sourceAsMap.get("id").toString());
+            searchResponseDto.setFirstName(sourceAsMap.get("name").toString());
+        searchResponseDto.setLastName(sourceAsMap.get("surname").toString());
+        searchResponseDto.setAddress(sourceAsMap.get("address").toString());
+            searchResponseDto.setEducation(sourceAsMap.get("education").toString());
+            searchResponseDto.setHighlight("");
+            searchResult.add(searchResponseDto);
+
+        }System.out.println(searchResult);
+        return new ResponseEntity<>(searchResult, HttpStatus.OK);
+    } */
 
         @PostMapping(value = "/location")
     public ResponseEntity<?> searchByGeoLocation(@RequestBody GeoLocationDto dto) throws Exception {
-        CandidateLocation location = locationService.getLocationFromAddress(dto.getCity());
+        Location location = locationService.getLocationFromAddress(dto.getCity());
         NativeSearchQuery query = QueryBuilderService.buildQuerysearchByGeoLocation(dto, location);
 
         return new ResponseEntity<>(searchService.simpleSearch(query), HttpStatus.OK);

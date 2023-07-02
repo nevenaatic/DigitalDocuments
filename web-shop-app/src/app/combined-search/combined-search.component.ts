@@ -3,6 +3,7 @@ import { BootstrapOptions, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SearchService } from '../service/search.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { RegisterService } from '../service/register.service';
 
 @Component({
   selector: 'app-combined-search',
@@ -43,7 +44,7 @@ export class CombinedSearchComponent implements OnInit {
   clPS:boolean=false;
 
 
-  constructor( private router: Router, private searchService: SearchService, private snack: MatSnackBar) { }
+  constructor( private router: Router, private searchService: SearchService, private snack: MatSnackBar, private registerService: RegisterService) { }
 
   ngOnInit(): void {
   }
@@ -130,6 +131,46 @@ this.fields.shift(); // uklanjam onaj prvi obj
           });
         }
         this.fields = [];
+      }
+    )
+  }
+
+
+  downloadCV(i:any){
+    let dto = {
+      "id": i,
+      "isCV": true
+    }
+
+    this.registerService.download(dto).subscribe(
+      (data: any) => {
+        console.log(this.result)
+        var file = new Blob([data], { type: 'application/pdf' })
+        var link = document.createElement('a');
+        link.href = window.URL.createObjectURL(file);
+        link.download = 'downloadedCV.pdf';
+        link.target = '_blank';
+        link.click();     
+      }
+    )
+  }
+
+  downloadCL(i:any){
+    let dto = {
+      "id": i,
+      "isCV": false
+    }
+
+    this.registerService.download(dto).subscribe(
+      (data: any) => {
+        console.log(this.result)
+        console.log(this.result)
+        var file = new Blob([data], { type: 'application/pdf' })
+        var link = document.createElement('a');
+        link.href = window.URL.createObjectURL(file);
+        link.download = 'downloadedCL.pdf';
+        link.target = '_blank';
+        link.click();     
       }
     )
   }
