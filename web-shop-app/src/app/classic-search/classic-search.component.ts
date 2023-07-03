@@ -40,7 +40,7 @@ export class ClassicSearchComponent implements OnInit {
 
   selectPhrase = () => this.phrase = true;
 
-  cancel=() => this.router.navigate(['/']);
+  cancel=() => this.router.navigate(['/homepage']);
 
   educationLevel($event:any) {this.content= $event.target.value;}
 

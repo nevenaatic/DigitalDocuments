@@ -37,7 +37,6 @@ export class WorkersComponent implements OnInit {
 
 
   hire(id: any){
-    localStorage.setItem('id', '1')
     let employee = localStorage.getItem('id')
 
     var dto = {
@@ -49,6 +48,10 @@ export class WorkersComponent implements OnInit {
     this.registerService.hire(dto).subscribe(
       (data: any) => {
         alert("Well done! New emloyee hired!")
+        this.registerService.getAll().subscribe( (data: any) => {
+          this.result = data
+          console.log(this.result)
+        })
       }
     )
 

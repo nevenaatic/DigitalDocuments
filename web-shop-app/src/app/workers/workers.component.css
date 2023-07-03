@@ -12,9 +12,11 @@ body {
 }
 
 .card{
+    margin-left: 15px;
     margin-right: 10px;
     width: 400px;
     background-color: rgb(238, 238, 182);
+    margin-bottom: 10px;
 }
 
 .custom-select{

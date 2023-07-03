@@ -50,7 +50,7 @@ export class CombinedSearchComponent implements OnInit {
   }
 
 
-  cancel=() => this.router.navigate(['/']);
+  cancel=() => this.router.navigate(['/homepage']);
 
   educationLevel($event:any) {
  

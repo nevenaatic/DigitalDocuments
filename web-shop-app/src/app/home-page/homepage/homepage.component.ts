@@ -20,4 +20,6 @@ export class HomepageComponent implements OnInit {
   public geopointSearch = () => this.router.navigate(['/geopoint-search'])
   public workersShow = () => this.router.navigate(['/workers'])
   public addApplicant = ()=> this.router.navigate(['/applicant'])
+
+  public showStatistic =() => this.router.navigate(['/statistic']);
 }

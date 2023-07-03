@@ -14,6 +14,8 @@ import { FormsModule } from '@angular/forms';
 import { AddApplicantComponent } from './add-applicant/add-applicant.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { WorkersComponent } from './workers/workers.component';
+import { SignInComponent } from './sign-in/sign-in.component';
+import { StatisticComponent } from './statistic/statistic.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,9 @@ import { WorkersComponent } from './workers/workers.component';
     CombinedSearchComponent,
     GeopointSearchComponent,
     AddApplicantComponent,
-    WorkersComponent
+    WorkersComponent,
+    SignInComponent,
+    StatisticComponent
   ],
   imports: [
     BrowserModule,

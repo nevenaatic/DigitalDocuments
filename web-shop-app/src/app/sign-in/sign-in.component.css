@@ -1,0 +1,35 @@
+body {
+    background-image: url('../../assets/image.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    height: 800px;
+    overflow: hidden;
+    opacity: 0.9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.container{
+    align-items: center;
+}
+.card{
+    background-color: black;
+    opacity: 0.9;
+    color: white;
+    width: 30%;
+    align-content: center;
+    margin-left: 38%;
+}
+
+.card-title{
+    font-weight: lighter;
+    font-size: xx-large;
+}
+
+.sign-in-btn{
+    margin-left: 35%;
+    margin-bottom: 10%;
+    font-size: large;
+    font-weight: bold;
+}

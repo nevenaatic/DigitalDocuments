@@ -37,5 +37,5 @@ export class GeopointSearchComponent implements OnInit {
     )
   }
 
-  cancel = () => this.router.navigate(['/'])
+  cancel = () => this.router.navigate(['/homepage'])
 }

@@ -6,14 +6,18 @@ import { CombinedSearchComponent } from './combined-search/combined-search.compo
 import { GeopointSearchComponent } from './geopoint-search/geopoint-search.component';
 import { AddApplicantComponent } from './add-applicant/add-applicant.component';
 import { WorkersComponent } from './workers/workers.component';
+import { SignInComponent } from './sign-in/sign-in.component';
+import { StatisticComponent } from './statistic/statistic.component';
 
 const routes: Routes = [
-  { path: '', component: HomepageComponent },
+  { path: '', component: SignInComponent },
+  { path: 'homepage', component: HomepageComponent },
   { path: 'classic-search', component: ClassicSearchComponent },
   { path: 'combined-search', component: CombinedSearchComponent},
   { path: 'geopoint-search', component: GeopointSearchComponent}, 
   { path: 'applicant', component: AddApplicantComponent}, 
   { path: 'workers', component: WorkersComponent}, 
+  { path: 'statistic', component:StatisticComponent}
   
 ];
 

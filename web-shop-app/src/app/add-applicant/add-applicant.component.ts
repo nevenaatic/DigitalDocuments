@@ -35,7 +35,7 @@ export class AddApplicantComponent implements OnInit {
     }
   ]
 
-  cancel  =() => this.router.navigate([''])
+  cancel  =() => this.router.navigate(['/homepage'])
 
   submit(){
 
@@ -51,10 +51,8 @@ export class AddApplicantComponent implements OnInit {
     this.registerService.register(formData).subscribe(
       (data: any) => {
         this.result = data
-          this.snackBar.open('Successfull!', 'Close', {
-            duration: 2000,
-          });
-        
+        alert("Successfully added!")
+        this.router.navigate(['/workers'])
        // this.router.navigate(['/workers'])
 
       }

@@ -1,0 +1,19 @@
+<body>
+    <div class="container">
+        <mat-card class="card">
+            <mat-card-title class="card-title">
+                Sign in
+            </mat-card-title>
+            <mat-card-content>
+                <input type="text" class="form-control" placeholder="Enter your username" [(ngModel)]="name">
+                <hr>
+                <input type="password" class="form-control" placeholder="Enter your password" [(ngModel)]="password">
+            </mat-card-content>
+            <mat-card-footer>
+                <button mat-button class="primary sign-in-btn" (click)="signIn()"> Confirm
+                </button>
+            </mat-card-footer>
+        </mat-card>
+    </div>
+
+</body>
