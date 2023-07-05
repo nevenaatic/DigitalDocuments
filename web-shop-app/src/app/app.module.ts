@@ -16,6 +16,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { WorkersComponent } from './workers/workers.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { StatisticComponent } from './statistic/statistic.component';
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { StatisticComponent } from './statistic/statistic.component';
     AddApplicantComponent,
     WorkersComponent,
     SignInComponent,
-    StatisticComponent
+    StatisticComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,

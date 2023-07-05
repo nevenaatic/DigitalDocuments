@@ -10,6 +10,7 @@ import javax.persistence.*;
 @Setter
 @Getter
 @Entity
+@Builder
 @Table(name = "applicant")
 public class Applicant {
 

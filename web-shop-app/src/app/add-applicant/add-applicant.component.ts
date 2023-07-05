@@ -35,7 +35,7 @@ export class AddApplicantComponent implements OnInit {
     }
   ]
 
-  cancel  =() => this.router.navigate(['/homepage'])
+  cancel = () => this.router.navigate(['/homepage'])
 
   submit(){
 
@@ -53,8 +53,6 @@ export class AddApplicantComponent implements OnInit {
         this.result = data
         alert("Successfully added!")
         this.router.navigate(['/workers'])
-       // this.router.navigate(['/workers'])
-
       }
     )
   }
@@ -62,16 +60,7 @@ export class AddApplicantComponent implements OnInit {
   addCV(cv:any){
     const file: File = cv.target.files[0];
     this.cv = file
-    console.log(this.user.surname)
-    // const formData: FormData = new FormData();
-    // formData.append('file', file, file.name);
-    //this.user.cv = formData
-    // this.registerService.sendFile(formData).subscribe(
-    //   (data: any) => {
-    //     console.log(data)
-    //   }
-    // )
-
+ 
   }
 
   addCL(cl:any){
@@ -85,7 +74,6 @@ export class AddApplicantComponent implements OnInit {
 
   educationLevel($event:any){
     var level = $event.target.value
-    alert(level)
     if(level == 1){
       this.user.education = "I - four grades"
     }

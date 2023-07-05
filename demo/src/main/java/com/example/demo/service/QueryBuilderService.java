@@ -11,9 +11,7 @@ import org.elasticsearch.common.unit.DistanceUnit;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
-
 import java.util.List;
-
 import static org.elasticsearch.index.query.QueryBuilders.matchPhraseQuery;
 import static org.elasticsearch.index.query.QueryBuilders.multiMatchQuery;
 import org.elasticsearch.index.query.GeoDistanceQueryBuilder;
@@ -26,18 +24,8 @@ public class QueryBuilderService {
 
     private final ElasticsearchRestTemplate elasticsearchRestTemplate;
 
-    public static NativeSearchQuery buildQueryApplicatnt(SimpleSearchDto dto) {
-        String errorMessage = "";
-        if (dto.getContent() == null || dto.getContent().equals("")) {
-            errorMessage += "Field is empty";
-        }
-        if (dto.getContent() == null) {
-            if (!errorMessage.equals("")) errorMessage += "\n";
-            errorMessage += "Value is empty";
-        }
-        if (!errorMessage.equals("")) {
-            throw new IllegalArgumentException(errorMessage);
-        }
+    public static NativeSearchQuery buildQueryApplicant(SimpleSearchDto dto) {
+        checkFields(dto);
 
         return new NativeSearchQueryBuilder()
                 .withQuery(multiMatchQuery(dto.getContent())
@@ -46,23 +34,12 @@ public class QueryBuilderService {
                         .type(MultiMatchQueryBuilder.Type.BEST_FIELDS))
                 //.withPageable(pageable)
                 .withHighlightFields(
-                        new HighlightBuilder.Field("cvContent").fragmentSize(20).numOfFragments(1)
-                                .preTags("<b>").postTags("</b>"))
+                        new HighlightBuilder.Field("cvContent").fragmentSize(20).numOfFragments(1))
                 .build();
     }
 
     public static NativeSearchQuery buildQueryApplicantPhrase(SimpleSearchDto dto) {
-        String errorMessage = "";
-        if (dto.getContent() == null || dto.getContent().equals("")) {
-            errorMessage += "Field is empty";
-        }
-        if (dto.getContent() == null) {
-            if (!errorMessage.equals("")) errorMessage += "\n";
-            errorMessage += "Value is empty";
-        }
-        if (!errorMessage.equals("")) {
-            throw new IllegalArgumentException(errorMessage);
-        }
+       checkFields(dto);
 
         return new NativeSearchQueryBuilder()
                 .withQuery(QueryBuilders.boolQuery()
@@ -72,69 +49,44 @@ public class QueryBuilderService {
                                 .type(MultiMatchQueryBuilder.Type.PHRASE))
                 )
                 .withHighlightFields(
-                        new HighlightBuilder.Field("cvContent").fragmentSize(250).numOfFragments(1)
-                                .preTags("<b>").postTags("</b>"))
+                        new HighlightBuilder.Field("cvContent").fragmentSize(250).numOfFragments(1).preTags("<b>").postTags("</b>"))
                 .build();
     }
 
     public static NativeSearchQuery buildQueryEducation(SimpleSearchDto dto) {
-        String errorMessage = "";
-        if (dto.getContent() == null || dto.getContent().equals("")) {
-            errorMessage += "Field is empty";
-        }
-        if (dto.getContent() == null) {
-            if (!errorMessage.equals("")) errorMessage += "\n";
-            errorMessage += "Value is empty";
-        }
-        if (!errorMessage.equals("")) {
-            throw new IllegalArgumentException(errorMessage);
-        }
+       checkFields(dto);
 
         if(dto.getPhrase()){
             return new NativeSearchQueryBuilder()
-                    .withQuery(matchPhraseQuery("education", dto.getContent())
-                    )
+                    .withQuery(matchPhraseQuery("education", dto.getContent()))
                     .withHighlightFields(new HighlightBuilder.Field("cvContent").fragmentSize(250).preTags("<b>").postTags("</b>"))
                     .build();
         }else{
             return new NativeSearchQueryBuilder()
-                    .withQuery(multiMatchQuery(dto.getContent())
-                            .field("education")
-                    )
+                    .withQuery(multiMatchQuery(dto.getContent()).field("education"))
                     .withHighlightFields(new HighlightBuilder.Field("cvContent").fragmentSize(250).preTags("<b>").postTags("</b>"))
                     .build();
         }
     }
 
     public static NativeSearchQuery buildQueryCV(SimpleSearchDto dto) {
-        String errorMessage = "";
-        if (dto.getContent() == null || dto.getContent().equals("")) {
-            errorMessage += "Field is empty";
-        }
-        if (dto.getContent() == null) {
-            if (!errorMessage.equals("")) errorMessage += "\n";
-            errorMessage += "Value is empty";
-        }
-        if (!errorMessage.equals("")) {
-            throw new IllegalArgumentException(errorMessage);
-        }
+        checkFields(dto);
 
         if(dto.getPhrase()){
             return new NativeSearchQueryBuilder()
-                    .withQuery(matchPhraseQuery("cvContent", dto.getContent())
-                    )
+                    .withQuery(matchPhraseQuery("cvContent", dto.getContent()))
                     .withHighlightFields(new HighlightBuilder.Field("cvContent").fragmentSize(250).preTags("<b>").postTags("</b>"))
                     .build();
         }else{
             return new NativeSearchQueryBuilder()
                     .withQuery(multiMatchQuery(dto.getContent())
-                            .field("cvContent")
-                    )
+                            .field("cvContent"))
                     .withHighlightFields(new HighlightBuilder.Field("cvContent").fragmentSize(250).preTags("<b>").postTags("</b>"))
                     .build();
         }
     }
-    public static NativeSearchQuery buildQuerysearchByCoverLetter(SimpleSearchDto dto) {
+
+    private static void checkFields(SimpleSearchDto dto) {
         String errorMessage = "";
         if (dto.getContent() == null || dto.getContent().equals("")) {
             errorMessage += "Field is empty";
@@ -143,9 +95,21 @@ public class QueryBuilderService {
             if (!errorMessage.equals("")) errorMessage += "\n";
             errorMessage += "Value is empty";
         }
-        if (!errorMessage.equals("")) {
+        if (!errorMessage.equals(""))
             throw new IllegalArgumentException(errorMessage);
-        }
+    }
+
+    public static NativeSearchQuery buildQuerySearchByCoverLetter(SimpleSearchDto dto) {
+        String errorMessage = "";
+        if (dto.getContent() == null || dto.getContent().equals(""))
+            errorMessage += "Field is empty";
+
+        if (dto.getContent() == null)
+            if (!errorMessage.equals("")) errorMessage += "\n";
+            errorMessage += "Value is empty";
+
+        if (!errorMessage.equals(""))
+            throw new IllegalArgumentException(errorMessage);
 
         if(dto.getPhrase()){
             return new NativeSearchQueryBuilder()
@@ -156,33 +120,27 @@ public class QueryBuilderService {
         }else{
             return new NativeSearchQueryBuilder()
                     .withQuery(multiMatchQuery(dto.getContent())
-                            .field("clContent")
-                    )
+                            .field("clContent"))
                     .withHighlightFields(new HighlightBuilder.Field("clContent").fragmentSize(250).preTags("<b>").postTags("</b>"))
                     .build();
         }
     }
 
-
-    public static NativeSearchQuery buildQuerysearchByGeoLocation(GeoLocationDto dto, Location location) throws Exception {
+    public static NativeSearchQuery buildQuerySearchByGeoLocation(GeoLocationDto dto, Location location) throws Exception {
         String errorMessage = "";
-        if (dto.getCity() == null || dto.getCity().equals("")) {
+        if (dto.getCity() == null || dto.getCity().equals(""))
             errorMessage += "Field is empty";
-        }
 
-        if (dto.getRadius() == null) {
+        if (dto.getRadius() == null)
             errorMessage += "Field is empty";
-        }
 
-        if (!errorMessage.equals("")) {
+        if (!errorMessage.equals(""))
             throw new IllegalArgumentException(errorMessage);
-        }
 
         GeoDistanceQueryBuilder geoDistanceBuilder = new GeoDistanceQueryBuilder("location")
                 .point(location.getLat(), location.getLon())
                 .distance(dto.getRadius(),
                         DistanceUnit.parseUnit("km", DistanceUnit.KILOMETERS));
-
 
         return new NativeSearchQueryBuilder()
                 .withFilter(geoDistanceBuilder)
@@ -190,9 +148,7 @@ public class QueryBuilderService {
                 .build();
     }
 
-
-
-    public static NativeSearchQuery buildQuerysearchAdvanced(List<AdvancedSearchRequestsDto> dto) {
+    public static NativeSearchQuery buildQuerySearchAdvanced(List<AdvancedSearchRequestsDto> dto) {
         BoolQueryBuilder boolQuery = QueryBuilders.boolQuery();
 
         for(AdvancedSearchRequestsDto req: dto){
@@ -222,10 +178,8 @@ public class QueryBuilderService {
                 .withQuery(boolQuery)
                 .withHighlightBuilder(highlightBuilder)
                 .build();
-        System.out.println(searchQuery);
 
         return searchQuery;
     }
-
 
 }

@@ -33,9 +33,6 @@ public class ApplicantService {
     public ApplicantRepository applicationRepository;
 
     @Autowired
-    public PodaciESRepository podaciESRepository;
-
-    @Autowired
     CandidateLocationService locationService;
 
     @Autowired
@@ -45,12 +42,11 @@ public class ApplicantService {
     private CompanyRepository companyRepository;
 
     private static final Logger logger = LoggerFactory.getLogger(ApplicantService.class);
-    private static int applicantNum = 1;
 
    public  void save(IndexUnit applicant){ indexUnitRepository.save(applicant);}
 
     public Applicant findByIdInt(int id) {
-        return (Applicant) applicationRepository.findById(id).orElse(null);
+        return applicationRepository.findById(id).orElse(null);
     }
     public IndexUnit findById(String id){
         return indexUnitRepository.findById(id).orElse(null);
@@ -78,48 +74,32 @@ public class ApplicantService {
     public IndexUnit register(RegisterDto dto) throws Exception {
         MultipartFile cv = dto.getCv();
         MultipartFile coverLetter = dto.getCoverLetter();
-        String cvContent = saveAndReadPdf(cv);
-        String clContent = saveAndReadPdf(coverLetter);
 
-        Applicant a = new Applicant();
-        a.setName(dto.getName());
-        a.setSurname(dto.getSurname());
-        a.setCvName(cv.getOriginalFilename());
-        a.setClName(coverLetter.getOriginalFilename());
-        a.setEducation(dto.getEducation());
-        a.setStreet(dto.getStreet());
-        a.setCity(dto.getCity());
+        Applicant a =  Applicant.builder()
+                .name(dto.getName())
+                .surname(dto.getSurname())
+                .cvName(cv.getOriginalFilename())
+                .clName(coverLetter.getOriginalFilename())
+                .education(dto.getEducation())
+                .street(dto.getStreet())
+                .city(dto.getCity())
+                .build();
         applicationRepository.save(a);
 
-        IndexUnit iu = new IndexUnit();
-        //iu.setId(String.valueOf(ApplicantService.applicantNum));
-        iu.setId(a.getId().toString());
-        iu.setName(dto.getName());
-        iu.setSurname(dto.getSurname());
-        iu.setEducation(dto.getEducation());
-        iu.setClContent(clContent);
-        iu.setCvContent(cvContent);
+        IndexUnit iu =  IndexUnit.builder()
+                .id(a.getId().toString())
+                .name(dto.getName())
+                .surname(dto.getSurname())
+                .education(dto.getEducation())
+                .clContent(saveAndReadPdf(coverLetter))
+                .cvContent(saveAndReadPdf(cv))
+                .build();
 
         Location l = locationService.getLocationFromAddress(dto.getCity());
-       GeoPoint g = new GeoPoint(l.getLat(),l.getLon());
+        GeoPoint g = new GeoPoint(l.getLat(),l.getLon());
         iu.setLocation(g);
-
-
-        ++ApplicantService.applicantNum;
         save(iu);
 
-        //ZA CUVANJE NOVOG INDEKSA
-   /*     PodaciES podaci = new PodaciES();
-        podaci.setId(a.getId());
-        podaci.setIme(dto.getName());
-        podaci.setObrazovanje(dto.getEducation());
-        podaci.setSadrzajCV(cvContent);
-        podaci.setSadrzajPP(clContent);
-        podaci.setLocation(new GeoPoint(l.getLat(), l.getLon()));
-        podaciESRepository.save(podaci); */
-
-
-        System.out.println(l.getLat() + "-----" + l.getLon());
         return iu;
     }
 
@@ -127,10 +107,10 @@ public class ApplicantService {
         String fileName = file.getOriginalFilename();
         InputStream inputStream = file.getInputStream();
 
-        File resourcesDir = new File("src/main/resources");
-        if (!resourcesDir.exists()) {
+        File resourcesDir = new File("src/main/resources/documents");
+        if (!resourcesDir.exists())
             resourcesDir.mkdirs();
-        }
+
 
         File pdfFile = new File(resourcesDir, fileName);
         FileOutputStream outputStream = new FileOutputStream(pdfFile);
@@ -140,7 +120,10 @@ public class ApplicantService {
         inputStream.close();
         outputStream.close();
 
+        return extractPdfText(pdfFile);
+    }
 
+    private String extractPdfText(File pdfFile) throws IOException {
         String parsedText;
         PDFParser parser = new PDFParser(new RandomAccessFile(pdfFile, "r"));
         parser.parse();
@@ -149,16 +132,14 @@ public class ApplicantService {
         PDDocument pdDoc = new PDDocument(cosDoc);
         parsedText = pdfStripper.getText(pdDoc);
         cosDoc.close();
-
         return parsedText;
     }
 
     public Boolean hire(HireDto dto){
         Applicant a = applicationRepository.findById(Integer.parseInt(dto.getApplicantId())).orElseGet(null);
 
-        if(a == null){
+        if(a == null)
             return false;
-        }
 
         Company c = companyRepository.findById(Long.valueOf(dto.getCompanyId())).orElseGet(null);
 

@@ -53,7 +53,6 @@ public class SearchService {
                 }
                 else{
                     searchResponse.setHighlight("..." + searchHit.getHighlightFields().get("clContent").get(0) + "...");
-
                 }
             }
             searchResponses.add(searchResponse);

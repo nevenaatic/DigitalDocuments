@@ -145,7 +145,7 @@
                 <div class="card-body">
                 
                  
-                  <p class="card-text">Highlight: {{r.highlight}}</p>
+                  <p class="card-text" [innerHTML]="r.highlight">Highlight: {{r.highlight}}</p>
                 <button class="btn btn-primary" (click)="downloadCV(r.id)" >Download CV</button>
               <button class="btn btn-primary" style="margin-left: 100px;" (click)="downloadCL(r.id)">Download cover letter</button>
              </div>
