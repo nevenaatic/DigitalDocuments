@@ -1,0 +1,7 @@
+Download ElasticSearch, Kibana and Logstash 7.4.0
+From ES instalation /bin run .\elasticsearch.bat
+From Kibana instalation /bin run .\kibana.bat
+From Logstash instalation /bin run .\logstash.bat -f ..\config\logstash.conf
+
+
+https://www.youtube.com/watch?v=okYwBHGy5hU&ab_channel=CodeboardClub
